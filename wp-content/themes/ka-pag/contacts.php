@@ -15,65 +15,39 @@ get_header(); ?>
         <h2>Контакты</h2>
 
 
-        <?php if( have_rows('contacts') ): ?>
+        <div class="address">
+          
+          <!-- phone ---------->
 
-          <div class="box">
+          <?php 
 
-            <?php while( have_rows('contacts') ): the_row(); 
+          $phone1 = get_field('phone1', 'option');
 
-              // переменные
-              $specialization = get_sub_field('specialization');
-              $name = get_sub_field('name');
-              $phone = get_sub_field('phone');
-              $email = get_sub_field('email');
+          if( $phone1 ): 
+            $link_url = $phone1['url'];
+            $link_title = $phone1['title'];
+            $link_target = $phone1['target'] ? $phone1['target'] : '_self';
+            ?>
+            <h3><a href="<?php echo esc_url($link_url); ?>" target="<?php echo esc_attr($link_target); ?>"><?php echo esc_html($link_title); ?></a></h3>
+          <?php endif; ?>
+          
+          <!-- email ---------->
+          <?php 
 
+            $email = get_field('email', 'option');
+
+            if( $email ): 
+              $link_url = $email['url'];
+              $link_title = $email['title'];
+              $link_target = $email['target'] ? $email['target'] : '_self';
               ?>
-
-              <div class="item">
-
-                <?php
-                //  специализация
-                if( $specialization ): ?>
-                  <div class="specialization"><?php echo $specialization; ?></div>
-                <?php endif; ?>
-
-                <?php
-                //  имя
-                if( $name ): ?>
-                  <div class="name"><?php echo $name; ?></div>
-                <?php endif; ?>
-
-                <?php 
-                //  телефон
-
-                if( $phone ): 
-                  $link_url = $phone['url'];
-                  $link_title = $phone['title'];
-                  $link_target = $phone['target'] ? $phone['target'] : '_self';
-                  ?>
-                  <a class="phone" href="<?php echo esc_url($link_url); ?>" target="<?php echo esc_attr($link_target); ?>"><?php echo esc_html($link_title); ?></a>
-                <?php endif; ?>
-
-                <?php 
-                //  email
-
-                if( $email ): 
-                  $link_url = $email['url'];
-                  $link_title = $email['title'];
-                  $link_target = $email['target'] ? $email['target'] : '_self';
-                  ?>
-                  <a class="email" href="<?php echo esc_url($link_url); ?>" target="<?php echo esc_attr($link_target); ?>"><?php echo esc_html($link_title); ?></a>
-                <?php endif; ?>
-
-              </div>
-
-            <?php endwhile; ?>
+            <h3><a href="<?php echo esc_url($link_url); ?>" target="<?php echo esc_attr($link_target); ?>"><?php echo esc_html($link_title); ?></a></h3>
+            <?php endif; ?>
+            
+            <h3><?php the_field('address', 'option'); ?></h3>
 
           </div>
-        <!-- ./box -->
-
-        <?php endif; ?>
-
+          <!--./ address -->
 
 
         <div class="map-box">
@@ -84,7 +58,8 @@ get_header(); ?>
             
           </div>
           <div class="map">
-            <div class="address"> Адрес офиса: <?php the_field('address', 'option'); ?></div>
+
+
             <?php the_field('map'); ?>
             
           </div>

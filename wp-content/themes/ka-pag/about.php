@@ -56,7 +56,12 @@ get_header(); ?>
 
 
 
-        <?php $posts = get_posts ("category=5&orderby=date&numberposts=6"); ?> 
+        <?php $posts = get_posts (array(
+                      'numberposts' => 6,
+                      'category'    => 5,
+                      'orderby'     => 'date',
+                      'order'       => 'ASC'
+                    )); ?> 
         <?php if ($posts) : ?>
 
           <div class="box">

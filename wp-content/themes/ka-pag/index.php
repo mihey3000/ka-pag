@@ -1,4 +1,10 @@
-    <?php get_header(); ?>
+<?php 
+/**
+ * Template Name: index
+ * Template Post Type: page
+ * 
+ */
+get_header(); ?>
 
       
     <!-- main-hero -------------------- -->
@@ -14,7 +20,12 @@
 
 
         <!-- Фото коллегии ------------------------------ -->
-        <?php $posts = get_posts ("category=5&orderby=date&numberposts=6"); ?> 
+        <?php $posts = get_posts (array(
+                      'numberposts' => 6,
+                      'category'    => 5,
+                      'orderby'     => 'date',
+                      'order'       => 'ASC'
+                    )); ?> 
         <?php if ($posts) : ?>
 
           <div class="img-box">
@@ -210,7 +221,12 @@
 
 
 
-        <?php $posts = get_posts ("category=5&orderby=date&numberposts=6"); ?> 
+        <?php $posts = get_posts (array(
+                      'numberposts' => 6,
+                      'category'    => 5,
+                      'orderby'     => 'date',
+                      'order'       => 'ASC'
+                    )); ?> 
         <?php if ($posts) : ?>
 
           <div class="box">

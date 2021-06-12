@@ -22,12 +22,25 @@ get_header(); ?>
             <?php 
               $profile_specialization = get_field('profile-specialization'); 
             ?>
-            <span><?php echo $profile_specialization; ?></span>
+
+            <?php if ($profile_specialization) : ?>
+              <span>
+            <?php endif; ?>
+
+                <?php echo $profile_specialization; ?>
+
+            <?php if ($profile_specialization) : ?>
+              </span>
+            <?php endif; ?>
+
             <h2><?php the_title();?></h2>
             <?php the_field('profile-text');?>
           </div>
 
+
+
         </div>
+      <!--./ box -->
 
 
       </div>
@@ -35,133 +48,6 @@ get_header(); ?>
     </section>
     <!-- ./profile-hero-->
 
-
-
-    <section class="education">
-      <div class="wrap">
-
-        <div class="image">
-          
-
-        <?php 
-
-          $verification_image = get_field('verification-image');
-
-          if( !empty($verification_image) ): ?>
-
-            <img src="<?php echo $verification_image['url']; ?>" alt="<?php echo $verification_image['alt']; ?>" />
-
-          <?php endif; ?>
-        </div>
-
-        <div class="text">
-          <h3>Образование</h3>
-          <p><?php the_field('profile-education');?>
-          </p>
-          <h3>Специализация</h3>
-
-          <ul class="specialization">
-            <?php
-
-
-            // проверяем есть ли в повторителе данные
-            if( have_rows('specialization-list') ):
-
-              // перебираем данные
-                while ( have_rows('specialization-list') ) : the_row();?>
-                    <li><?php the_sub_field('specialization-item');?></li>
-                <?php endwhile;
-
-            else :
-
-                // вложенных полей не найдено
-
-            endif;?>
-          </ul>
-
-          <h3>Контакты</h3>
-          <div class="contacts">
-
-            <ul class="phone">
-
-              <?php 
-                // основной телефон
-                $profile_phone = get_field('profile-phone');
-
-                if( $profile_phone ): 
-                  $link_url = $profile_phone['url'];
-                  $link_title = $profile_phone['title'];
-                  $link_target = $profile_phone['target'] ? $profile_phone['target'] : '_self';
-                  ?>
-                  <li><a class="button" href="<?php echo esc_url($link_url); ?>" target="<?php echo esc_attr($link_target); ?>"><?php echo esc_html($link_title); ?></a></li>
-              <?php endif; ?>
-
-              <?php 
-                // дополнительный телефон
-                $profile_phone2 = get_field('profile-phone2');
-
-                if( $profile_phone2 ): 
-                  $link_url = $profile_phone2['url'];
-                  $link_title = $profile_phone2['title'];
-                  $link_target = $profile_phone2['target'] ? $profile_phone2['target'] : '_self';
-                  ?>
-                  <li><a class="button" href="<?php echo esc_url($link_url); ?>" target="<?php echo esc_attr($link_target); ?>"><?php echo esc_html($link_title); ?></a></li>
-              <?php endif; ?>
-
-              <?php 
-                // email
-                $profile_email = get_field('profile-email');
-
-                if( $profile_email ): 
-                  $link_url = $profile_email['url'];
-                  $link_title = $profile_email['title'];
-                  $link_target = $profile_email['target'] ? $profile_email['target'] : '_self';
-                  ?>
-                  <li><a class="button" href="<?php echo esc_url($link_url); ?>" target="<?php echo esc_attr($link_target); ?>"><?php echo esc_html($link_title); ?></a></li>
-              <?php endif; ?>
-            </ul>
-
-
-
-            <?php if( have_rows('profile-social') ): ?>
-
-              <ul class="social">
-
-              <?php while( have_rows('profile-social') ): the_row(); 
-
-                // соцсети
-                $profile_social_image = get_sub_field('profile-social-image');
-                $profile_link = get_sub_field('social-link');
-
-                ?>
-
-                <li>
-
-                  <?php if( $profile_link ): ?>
-                    <a href="<?php echo $profile_link; ?>">
-                  <?php endif; ?>
-
-                    <img src="<?php echo $profile_social_image['url']; ?>" alt="<?php echo $profile_social_image['alt'] ?>" />
-
-                  <?php if( $profile_link ): ?>
-                    </a>
-                  <?php endif; ?>
-
-                </li>
-
-              <?php endwhile; ?>
-
-              </ul>
-
-              <?php endif; ?>
-
-
-          </div>
-          <!-- ./contacts -->
-        </div>
-      </div>
-    </section>
-    <!-- ./education-->
 
 
     
@@ -172,7 +58,12 @@ get_header(); ?>
 
 
 
-        <?php $posts = get_posts ("category=5&orderby=date&numberposts=6"); ?> 
+        <?php $posts = get_posts (array(
+                      'numberposts' => 6,
+                      'category'    => 5,
+                      'orderby'     => 'date',
+                      'order'       => 'ASC'
+                    )); ?> 
         <?php if ($posts) : ?>
 
           <div class="box">
@@ -185,12 +76,6 @@ get_header(); ?>
            
            
            <?php echo get_the_post_thumbnail() ?> 
-            
-              <?php if( $profile_specialization ): ?>
-                <div class="specialization">
-                  <?php echo $profile_specialization; ?>
-                </div>
-              <?php endif; ?>
 
             <div class="name">
               <?php the_title(); ?>
